@@ -2,10 +2,10 @@
   <div>
     <el-row>
       <h1>契約社員編集</h1>
-      <el-button type="primary">保存</el-button>
+      <el-button type="primary" @click="onSave">保存</el-button>
     </el-row>
     <el-card class="box-card">
-      <el-form label-width="120px">
+      <el-form label-width="120px" :model="contractEmployee">
         <el-form-item label="顔写真">
           <el-upload
             class="avatar-uploader"
@@ -14,30 +14,42 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <img
+              v-if="contractEmployee.imageUrl"
+              :src="contractEmployee.imageUrl"
+              class="avatar"
+            />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
         <el-form-item label="社員番号">
-          <el-input></el-input>
+          <el-input v-model="contractEmployee.staffCode"></el-input>
         </el-form-item>
         <el-form-item label="名前">
-          <el-input></el-input>
+          <el-input v-model="contractEmployee.name"></el-input>
         </el-form-item>
         <el-form-item label="生年月日">
-          <el-date-picker type="date" placeholder="生年月日"></el-date-picker>
+          <el-date-picker
+            v-model="contractEmployee.birthday"
+            type="date"
+            placeholder="生年月日"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="年齢">
-          <el-input></el-input>
+          <el-input v-model="contractEmployee.age"></el-input>
         </el-form-item>
         <el-form-item label="連絡先">
-          <el-input></el-input>
+          <el-input v-model="contractEmployee.contact"></el-input>
         </el-form-item>
         <el-form-item label="住所">
-          <el-input></el-input>
+          <el-input v-model="contractEmployee.address"></el-input>
         </el-form-item>
         <el-form-item label="備考">
-          <el-input type="textarea" :rows="3"></el-input>
+          <el-input
+            v-model="contractEmployee.memo"
+            type="textarea"
+            :rows="3"
+          ></el-input>
         </el-form-item>
       </el-form>
     </el-card>
@@ -50,20 +62,34 @@ import {
   ElUploadInternalFileDetail,
   ElUploadInternalRawFile
 } from 'element-ui/types/upload'
+import { db } from '~/plugins/firebase.ts'
 
 export default Vue.extend({
   data: () => ({
-    imageUrl: ''
+    contractEmployee: {
+      imageUrl: '',
+      staffCode: '',
+      name: '',
+      birthday: '',
+      age: '',
+      contact: '',
+      address: '',
+      memo: ''
+    }
   }),
   methods: {
     handleAvatarSuccess(file: ElUploadInternalFileDetail) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+      this.contractEmployee.imageUrl = URL.createObjectURL(file.raw)
     },
     beforeAvatarUpload(file: ElUploadInternalRawFile) {
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
 
       return isJPG && isLt2M
+    },
+    onSave() {
+      const contractEmployees = db.collection('contract-employees')
+      contractEmployees.add(this.contractEmployee)
     }
   }
 })

@@ -29,7 +29,13 @@
         <el-button type="primary">検索</el-button>
       </el-form-item>
     </el-form>
-    <el-table stripe border height="780" :data="tableData" style="width: 100%">
+    <el-table
+      stripe
+      border
+      height="780"
+      :data="contractEmployees"
+      style="width: 100%"
+    >
       <el-table-column width="80">
         <router-link to="/person/edit">
           <el-button size="mini">編集</el-button>
@@ -82,48 +88,16 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
+
 export default Vue.extend({
-  data() {
-    return {
-      tableData: [
-        {
-          imageUrl: 'http://placehold.jp/80x100.png',
-          staffCode: 'A00001',
-          name: 'テスト 太郎',
-          birthday: '2000/01/01',
-          contact: 'taro@test★com',
-          address: '東京都中野区ほにゃほにゃほにゃ',
-          memo: '好きな飲み物は日本茶'
-        },
-        {
-          imageUrl: 'http://placehold.jp/80x100.png',
-          staffCode: 'A00002',
-          name: 'テスト 次郎',
-          birthday: '2000/01/02',
-          contact: 'jiro@test★com',
-          address: '東京都江東区ほにゃほにゃほにゃ',
-          memo: ''
-        },
-        {
-          imageUrl: 'http://placehold.jp/80x100.png',
-          staffCode: 'A00003',
-          name: 'テスト 三郎',
-          birthday: '2000/01/03',
-          contact: 'saburo@test★com',
-          address: '東京都渋谷区ほにゃほにゃほにゃ',
-          memo: '好きなおやつはすあま'
-        },
-        {
-          imageUrl: 'http://placehold.jp/80x100.png',
-          staffCode: 'A00004',
-          name: 'テスト 四郎',
-          birthday: '2000/01/04',
-          contact: 'shiro@test★com',
-          address: '東京都港区ほにゃほにゃほにゃ',
-          memo: ''
-        }
-      ]
-    }
+  computed: {
+    ...mapGetters({
+      contractEmployees: 'person/list/getContractEmployees'
+    })
+  },
+  async asyncData({ store }) {
+    await store.dispatch('person/list/bindContractEmployees')
   }
 })
 </script>
