@@ -18,16 +18,17 @@ jobs:
       run: |
         npm install
         npm run build
-        ls
-        pwd
-        npm test
-        ls
-        pwd
-    - name: Archive Production Artifact
+        npm run build --prefix ./functions
+    - name: Archive Production Artifact Dist
       uses: actions/upload-artifact@master
       with:
         name: dist
         path: functions/ssr/dist
+    - name: Archive Production Artifact Lib
+      uses: actions/upload-artifact@master
+      with:
+        name: lib
+        path: functions/lib
 
   deploy:
     needs: build
@@ -39,6 +40,10 @@ jobs:
       uses: actions/download-artifact@master
       with:
         name: dist
+    - name: Download Artifact
+      uses: actions/download-artifact@master
+      with:
+        name: lib
     - name: ls
       run: |
         ls
