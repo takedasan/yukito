@@ -40,10 +40,12 @@ jobs:
       uses: actions/download-artifact@master
       with:
         name: dist
+        path: functions/ssr/dist
     - name: Download Artifact
       uses: actions/download-artifact@master
       with:
         name: lib
+        path: functions/lib
     - name: ls
       run: |
         ls
