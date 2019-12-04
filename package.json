@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nuxt-ts",
     "build": "nuxt-ts build && npm run build:copy:ssr",
-    "build:copy:ssr": "rimraf functions/ssr && mkdirp functions/ssr && cpx .nuxt/dist/** functions/ssr/dist",
+    "build:copy:ssr": "rimraf functions/ssr && mkdirp functions/ssr && cpx ./nuxt/dist/** functions/ssr/dist",
     "start": "nuxt-ts start",
     "generate": "nuxt-ts generate",
     "deploy": "firebase deploy",
