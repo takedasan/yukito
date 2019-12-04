@@ -19,6 +19,7 @@ jobs:
         npm install
         npm run build
         npm test
+        ls
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
       with:
