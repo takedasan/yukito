@@ -52,7 +52,8 @@ jobs:
         pwd
         ls ./functions
         npm install
-        npm install --prefix ./functions
+        npm --prefix ./functions install ./functions
+        npm install --prefix
     - name: Deploy to Firebase
       uses: w9jds/firebase-action@master
       with:
