@@ -18,8 +18,11 @@ jobs:
       run: |
         npm install
         npm run build
+        ls
+        pwd
         npm test
         ls
+        pwd
     - name: Archive Production Artifact
       uses: actions/upload-artifact@master
       with:
